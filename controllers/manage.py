@@ -70,6 +70,12 @@ def worker9():
     response.js = "$('#worker_9_queue').addClass('disabled');"
     response.flash = "Function demo4 scheduled"
 
+def worker10(): 
+    st.insert(task_name='timeout1', function_name='demo4', timeout=10, sync_output=2)
+    st.insert(task_name='timeout2', function_name='demo6', timeout=10, sync_output=2)
+    response.js = "$('#worker_10_queue').addClass('disabled');"
+    response.flash = "Function demo5 and demo6 scheduled with timeout=10"
+
 def enable_workers():
     db(sw.id>0).update(status='ACTIVE')
     response.flash = 'Workers enabled'

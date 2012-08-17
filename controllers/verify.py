@@ -101,3 +101,20 @@ def worker6():
         res = []
     response.view = 'default/verify.load'
     return dict(res=res)
+
+def worker10():
+    if 1:
+        task1 = db(st.task_name=='timeout1').select().first()
+        task2 = db(st.task_name=='timeout2').select().first()
+        task_run1 = db(sr.scheduler_task == task1.id).select()
+        task_run2 = db(sr.scheduler_task == task2.id).select()
+        res = [
+            ("task timeout1 timed out", task1.status == 'TIMEOUT'),
+            ("task timeout2 timed out", task2.status == 'TIMEOUT'),
+            ("timeout1 has a traceback", (len(task_run1) == 1 and task_run1[0].traceback)),
+            ("timeout2 has no traceback", (len(task_run2) == 1 and (not task_run2[0].traceback))),
+        ]
+    else:
+        res = []
+    response.view = 'default/verify.load'
+    return dict(res=res)

@@ -119,6 +119,7 @@ So, we have:
  -  demo3 : sleeps for 15 seconds, tries to print something, throws exception
  -  demo4 : sleeps for 15 seconds, print something, returns a dictionary
  -  demo5 : sleeps for 15 seconds, print nothing, doesn't return anything
+ -  demo6 : sleeps for 20 seconds, catches the sigterm signal
 
 The scheduler istantiated with the db only. Optionally, you can pass a dictionary
 containing a mapping between strings and functions.
@@ -263,6 +264,15 @@ st.insert(task_name='no_returns2', function_name='demo3')
 ``
     """
 
+    docs.times_out = """
+#### Tasks that will be terminated because they run too long
+
+``
+st.insert(task_name='timeout1', function_name='demo5', timeout=10, sync_output=2)
+st.insert(task_name='timeout2', function_name='demo6', timeout=10, sync_output=2)
+``
+    """
+
     return dict(docs=docs, comments=comments)
 
 def workers():
@@ -321,6 +331,21 @@ Instructions:
  - Watch the scheduler die within 3 seconds
     """
 
+    docs.times_out = """
+#### Let the task timeout
+
+As soon as the task runs longer than its timeout it is stopped and a full traceback is produced (if possible).
+
+Instructions:
+ - Push "Clear All"
+ - Push "Start Monitoring"
+ - If not yet, start a worker in another shell ``web2py.py -K w2p_scheduler_tests``
+ - Wait a few seconds, a worker shows up
+ - Push "Queue task"
+ - Wait until the task is reported as **RUNNING**
+ - Watch the task to timeout within 10 seconds
+    """
+    
     return dict(docs=docs, comments=comments)
 
 def how_it_works():

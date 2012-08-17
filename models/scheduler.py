@@ -15,6 +15,7 @@ def demo3():
     return None
 
 def demo4():
+    print "I'm the demo4 task"
     time.sleep(15)
     print "I'm printing something"
     return dict(a=1, b=2)
@@ -23,6 +24,21 @@ def demo5():
     time.sleep(15)
     print "I'm printing something"
     rtn = dict(a=1, b=2)
+
+def demo6():
+    print "starting demo6, this will only work under a posix compatible os"
+
+    def sig_fun(sig, func=None):
+        time.sleep(10)
+
+    import signal
+    signal.signal(signal.SIGTERM, sig_fun)
+    
+    print "!clear!now that you can't terminate me I am going to sleep"
+    time.sleep(20)
+
+    print "!clear!hello again... and good bye"
+
 
 
 scheduler = Scheduler(db)
